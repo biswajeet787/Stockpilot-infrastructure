@@ -23,7 +23,34 @@ resource "aws_ecs_task_definition" "main" {
 
       essential = true
 
-      portMappings = [
+environment = [
+  {
+    name  = "CLIENT_ORIGIN"
+    value = var.client_origin
+  },
+  {
+    name  = "DATABASE_URL"
+    value = var.database_url
+  },
+  {
+    name  = "JWT_EXPIRES_IN"
+    value = var.jwt_expires_in
+  },
+  {
+    name  = "JWT_SECRET"
+    value = var.jwt_secret
+  },
+  {
+    name  = "PORT"
+    value = "4000"
+  },
+  {
+    name  = "NOTIFICATION_LAMBDA_NAME"
+    value = var.notification_lambda_name
+  }
+]
+
+portMappings = [
         {
           containerPort = var.container_port
           hostPort      = var.container_port

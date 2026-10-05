@@ -4,53 +4,76 @@ import {
 } from "@aws-sdk/client-ses";
 
 const ses = new SESClient({
-  region: process.env.AWS_REGION,
+  region: process.env.AWS_REGION || "ap-south-1",
 });
 
 export const handler = async (event) => {
+  console.log(
+    "Received event:",
+    JSON.stringify(event),
+  );
 
-  console.log("Received event:", JSON.stringify(event));
+  const {
+    email,
+    productName,
+    sku,
+    currentQuantity,
+    minimumQuantity,
+  } = event;
 
-  const recipientEmail = event.email;
+  if (!email) {
+    throw new Error("Recipient email is required");
+  }
+
+  if (!productName) {
+    throw new Error("Product name is required");
+  }
 
   const command = new SendEmailCommand({
-
     Source: process.env.SES_FROM_EMAIL,
 
     Destination: {
-      ToAddresses: [recipientEmail],
+      ToAddresses: [email],
     },
 
     Message: {
-
       Subject: {
-        Data: "StockPilot Test Email",
+        Data: `Low Stock Alert - ${productName}`,
       },
 
       Body: {
-
         Text: {
-          Data:
-            "Hello! This is a test email sent from StockPilot Lambda using Amazon SES.",
+          Data: `
+Hello,
+
+This is a low stock alert from StockPilot.
+
+Product: ${productName}
+SKU: ${sku || "N/A"}
+
+Current Quantity: ${currentQuantity}
+Minimum Quantity: ${minimumQuantity}
+
+Please restock this product.
+
+Regards,
+StockPilot
+          `.trim(),
         },
-
       },
-
     },
-
   });
 
   const response = await ses.send(command);
 
-  console.log("SES Message ID:", response.MessageId);
+  console.log(
+    "SES Message ID:",
+    response.MessageId,
+  );
 
   return {
-
     success: true,
-
-    message: "Email sent successfully",
-
+    message: "Low stock email sent successfully",
     messageId: response.MessageId,
-
   };
 };

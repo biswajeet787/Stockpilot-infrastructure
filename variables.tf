@@ -94,6 +94,23 @@ variable "database_url" {
 
 }
 
+variable "client_origin" {
+  description = "Allowed client origin for the backend"
+  type        = string
+}
+
+variable "jwt_expires_in" {
+  description = "JWT expiration duration"
+  type        = string
+}
+
+variable "jwt_secret" {
+  description = "JWT signing secret"
+  type        = string
+  sensitive   = true
+}
+
+
 variable "ses_from_email" {
 
   description = "Verified email address used by Amazon SES"

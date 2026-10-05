@@ -70,6 +70,8 @@ module "iam" {
   common_tags = local.common_tags
 
   s3_bucket_arn = module.s3.bucket_arn
+
+  notification_lambda_arn = module.lambda.lambda_function_arn
 }
 
 
@@ -113,6 +115,15 @@ module "ecs" {
   ecr_repository_url = module.ecr.repository_url
 
   container_port = 4000
+
+  notification_lambda_name = module.lambda.lambda_function_name
+
+  database_url   = var.database_url
+  client_origin  = var.client_origin
+  jwt_expires_in = var.jwt_expires_in
+  jwt_secret     = var.jwt_secret
+
+
 
 }
 

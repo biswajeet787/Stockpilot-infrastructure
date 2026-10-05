@@ -48,3 +48,31 @@ variable "container_port" {
   type        = number
   default     = 4000
 }
+
+variable "notification_lambda_name" {
+ description = "Name of the notification Lambda function"
+ type        = string
+}
+
+variable "client_origin" {
+ description = "Allowed client origin for the backend"
+ type        = string
+}
+
+variable "database_url" {
+ description = "PostgreSQL database connection URL"
+ type        = string
+ sensitive   = true
+}
+
+variable "jwt_expires_in" {
+ description = "JWT expiration duration"
+ type        = string
+}
+
+variable "jwt_secret" {
+ description = "JWT signing secret"
+ type        = string
+ sensitive   = true
+}
+

@@ -8,7 +8,8 @@ data "aws_ami" "ubuntu" {
     name = "name"
 
     values = [
-      "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
+      #"ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"
+      "ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-20260714"
     ]
   }
 
